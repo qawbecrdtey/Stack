@@ -44,9 +44,10 @@ public:
             delete node->after;
         }
         delete node;
+        _size = 0;
     }
 
-    constexpr bool empty() { return head->after == tail && tail->before == head; }
+    constexpr bool empty() { return _size == 0; }
 
     void push(T const &element) {
         auto node = new Node();
@@ -55,6 +56,7 @@ public:
         node->before->after = node;
         node->after = tail;
         tail->before = node;
+        ++_size;
     }
     void push(T &&element) noexcept {
         auto node = new Node();
@@ -63,6 +65,7 @@ public:
         node->before->after = node;
         node->after = tail;
         tail->before = node;
+        ++_size;
     }
 
     void pop() {
@@ -71,6 +74,7 @@ public:
         tail->before = node->before;
         tail->before->after = tail;
         delete node;
+        --_size;
     }
 
     constexpr std::size_t size() const {
